@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\RoomTypes\Pages;
 
 use App\Filament\Resources\RoomTypes\RoomTypeResource;
@@ -7,7 +9,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 
-class EditRoomType extends EditRecord
+final class EditRoomType extends EditRecord
 {
     protected static string $resource = RoomTypeResource::class;
 

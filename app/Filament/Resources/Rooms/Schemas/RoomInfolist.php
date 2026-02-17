@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\Rooms\Schemas;
 
+use Alsaloul\ImageGallery\Infolists\Entries\ImageGalleryEntry;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
-class RoomInfolist
+final class RoomInfolist
 {
     public static function configure(Schema $schema): Schema
     {
@@ -26,14 +29,30 @@ class RoomInfolist
                 TextEntry::make('description')
                     ->placeholder('-')
                     ->columnSpanFull(),
-                TextEntry::make('room_type_id')
-                    ->numeric(),
+                TextEntry::make('roomType.name')->label('Room Type'),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
                     ->dateTime()
                     ->placeholder('-'),
+                ImageGalleryEntry::make('photosPath')
+                    ->label('Photos')
+                    ->disk(config('filesystems.default'))
+                    ->visibility('private')
+                    ->thumbWidth(128)
+                    ->thumbHeight(128)
+                    ->imageGap('gap-4'),
+                //                RepeatableEntry::make('photos')
+                //                    ->label('Photos')
+                //                    ->schema(
+                //                        [
+                //                            ImageEntry::make('file_path')->extraImgAttributes(['class' => 'rounded-lg shadow-md']),
+                //                        ])
+                //
+                //                    ->grid(3)
+                //                    ->columnSpanFull(),
+
             ]);
     }
 }

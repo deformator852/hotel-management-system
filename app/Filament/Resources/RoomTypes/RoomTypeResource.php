@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\RoomTypes;
 
 use App\Filament\Resources\RoomTypes\Pages\CreateRoomType;
@@ -16,11 +18,11 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 
-class RoomTypeResource extends Resource
+final class RoomTypeResource extends Resource
 {
     protected static ?string $model = RoomType::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::HomeModern;
 
     public static function form(Schema $schema): Schema
     {

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
-enum RoomStatus:string
+enum RoomStatus: string
 {
-    case AVAILABLE = "available";
-    case OCCUPIED = "occupied";
-    case MAINTENANCE = "maintenance";
-    case BLOCKED = "blocked";
+    case Available = 'available';
+    case Occupied = 'occupied';
+    case Maintenance = 'maintenance';
+    case Blocked = 'blocked';
 }
