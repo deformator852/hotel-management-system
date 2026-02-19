@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Rooms\Tables;
 
+use App\RoomStatus;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 final class RoomsTable
@@ -25,30 +26,31 @@ final class RoomsTable
                     ->sortable(),
                 TextColumn::make('status')
                     ->badge()
-                    ->searchable(),
+                    ->searchable()
+                    ->color(fn (RoomStatus $state): string => match ($state) {
+                        RoomStatus::Available => 'success',
+                        RoomStatus::Occupied => 'warning',
+                        RoomStatus::Maintenance => 'danger',
+                        RoomStatus::Blocked => 'secondary',
+                    }),
                 TextColumn::make('beds')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('area')
                     ->numeric()
                     ->sortable(),
-                IconColumn::make('has_balcony')
-                    ->boolean(),
-                TextColumn::make('room_type_id')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('created_at')
-                    ->dateTime()
+                TextColumn::make('roomType.name')
+                    ->label('Room Type')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->searchable(),
             ])
             ->filters([
-                //
-            ])
+                SelectFilter::make('has_balcony')
+                    ->label('Balcony')
+                    ->options([
+                        1 => 'Yes',
+                        0 => 'No',
+                    ]),            ])
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),

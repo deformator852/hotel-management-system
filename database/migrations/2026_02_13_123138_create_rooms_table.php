@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\RoomStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -14,11 +15,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rooms', function (Blueprint $table) {
+        Schema::create('rooms', static function (Blueprint $table): void {
             $table->id();
             $table->string('number', 15)->unique();
             $table->unsignedInteger('floor');
-            $table->string('status');
+            $table->enum(
+                'status',
+                array_map(static fn ($case) => $case->value, RoomStatus::cases())
+            )->default(RoomStatus::Available->value);
             $table->unsignedInteger('beds');
             $table->decimal('area');
             $table->boolean('has_balcony');

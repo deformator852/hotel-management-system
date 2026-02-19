@@ -43,16 +43,6 @@ final class RoomInfolist
                     ->thumbWidth(128)
                     ->thumbHeight(128)
                     ->imageGap('gap-4'),
-                //                RepeatableEntry::make('photos')
-                //                    ->label('Photos')
-                //                    ->schema(
-                //                        [
-                //                            ImageEntry::make('file_path')->extraImgAttributes(['class' => 'rounded-lg shadow-md']),
-                //                        ])
-                //
-                //                    ->grid(3)
-                //                    ->columnSpanFull(),
-
             ]);
     }
 }
