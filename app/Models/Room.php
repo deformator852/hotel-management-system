@@ -7,6 +7,7 @@ namespace App\Models;
 use App\RoomStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 final class Room extends Model
 {
@@ -14,6 +15,7 @@ final class Room extends Model
         'number',
         'floor',
         'status',
+        'price',
         'beds',
         'area',
         'has_balcony',
@@ -24,6 +26,21 @@ final class Room extends Model
     protected $casts = [
         'status' => RoomStatus::class,
     ];
+
+    public function reservations(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Reservation::class,
+            'reservation_rooms',
+            'room_id',
+            'reservation_id'
+        )->withPivot([
+            'room_type_id',
+            'price_per_night',
+            'number_of_nights',
+            'subtotal',
+        ])->withTimestamps();
+    }
 
     public function getPhotosPathAttribute(): array
     {

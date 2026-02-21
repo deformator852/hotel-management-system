@@ -25,14 +25,16 @@ final class RoomForm
                         ->label('Room type')
                         ->relationship('roomType', 'name')
                         ->required(),
-
                     TextInput::make('number')
                         ->required(),
-
                     TextInput::make('floor')
                         ->required()
                         ->numeric(),
-
+                    TextInput::make('price')
+                        ->label('Price per Night')
+                        ->numeric()
+                        ->required()
+                        ->suffix('€'),
                     Select::make('status')
                         ->options(RoomStatus::class)
                         ->required(),
@@ -44,7 +46,6 @@ final class RoomForm
                     TextInput::make('area')
                         ->required()
                         ->numeric(),
-
                     Toggle::make('has_balcony')
                         ->required(),
 

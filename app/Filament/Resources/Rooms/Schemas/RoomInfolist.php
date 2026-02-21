@@ -18,6 +18,10 @@ final class RoomInfolist
                 TextEntry::make('number'),
                 TextEntry::make('floor')
                     ->numeric(),
+                TextEntry::make('price')
+                    ->label('Price per Night')
+                    ->formatStateUsing(fn ($state) => $state ? $state.' €' : '-')
+                    ->placeholder('-'),
                 TextEntry::make('status')
                     ->badge(),
                 TextEntry::make('beds')

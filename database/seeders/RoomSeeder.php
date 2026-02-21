@@ -14,13 +14,13 @@ class RoomSeeder extends Seeder
     public function run(): void
     {
         $roomTypes = RoomType::pluck('id', 'name');
-
         $rooms = [
             [
                 'number' => '101',
                 'floor' => 1,
                 'status' => RoomStatus::Available->value,
                 'beds' => 1,
+                'price' => 50,
                 'area' => 18.5,
                 'has_balcony' => false,
                 'description' => 'Уютная одноместная комната',
@@ -31,6 +31,7 @@ class RoomSeeder extends Seeder
                 'floor' => 1,
                 'status' => RoomStatus::Available->value,
                 'beds' => 2,
+                'price' => 40,
                 'area' => 25.0,
                 'has_balcony' => true,
                 'description' => 'Двухместная комната с балконом',
@@ -41,6 +42,7 @@ class RoomSeeder extends Seeder
                 'floor' => 2,
                 'status' => RoomStatus::Available->value,
                 'beds' => 1,
+                'price' => 40,
                 'area' => 20.0,
                 'has_balcony' => false,
                 'description' => 'Одноместная комната на втором этаже',
@@ -51,6 +53,7 @@ class RoomSeeder extends Seeder
                 'floor' => 2,
                 'status' => RoomStatus::Available->value,
                 'beds' => 2,
+                'price' => 65,
                 'area' => 28.0,
                 'has_balcony' => true,
                 'description' => 'Двухместная комната с балконом',
@@ -61,6 +64,7 @@ class RoomSeeder extends Seeder
                 'floor' => 3,
                 'status' => RoomStatus::Available->value,
                 'beds' => 3,
+                'price' => 70,
                 'area' => 45.0,
                 'has_balcony' => true,
                 'description' => 'Люкс-комната для семьи',
