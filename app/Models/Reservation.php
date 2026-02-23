@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
@@ -18,10 +18,8 @@ class Reservation extends Model
         'guest_id',
         'check_in_date',
         'check_out_date',
-        'number_of_nights',
         'number_of_guests',
         'status',
-        'total_amount',
         'paid_amount',
         'special_requests',
         'created_by',
@@ -39,6 +37,23 @@ class Reservation extends Model
         return $this->belongsToMany(Room::class, 'reservation_rooms');
     }
 
+    public function numberOfNights(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Carbon::parse($this->check_in_date)
+                ->diffInDays(Carbon::parse($this->check_out_date))
+        );
+    }
+
+    public function totalAmount(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->rooms->sum(
+                fn ($room) => $room->price * $this->number_of_nights
+            ),
+        );
+    }
+
     protected static function booted(): void
     {
         static::saving(static function (Reservation $reservation): void {
@@ -52,19 +67,6 @@ class Reservation extends Model
                 throw ValidationException::withMessages([
                     'check_out_date' => 'Check-out date cannot be before check-in date.',
                 ]);
-            }
-
-            if ($reservation->check_in_date && $reservation->check_out_date) {
-                $checkIn = Carbon::parse($reservation->check_in_date);
-                $checkOut = Carbon::parse($reservation->check_out_date);
-                $reservation->number_of_nights = $checkIn->diffInDays($checkOut);
-            }
-            Log::info($reservation);
-            if ($reservation->room_id && $reservation->number_of_nights) {
-                $room = Room::find($reservation->room_id);
-                if ($room) {
-                    $reservation->total_amount = $reservation->number_of_nights * $room->price;
-                }
             }
         });
 

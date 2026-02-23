@@ -14,7 +14,10 @@ class ReservationInfolist
         return $schema
             ->components([
                 TextEntry::make('reservation_number'),
-                TextEntry::make('guest_id')
+                TextEntry::make('guest.first_name')
+                    ->label('Guest')
+                    ->getStateUsing(fn ($record) => "{$record->guest->first_name} {$record->guest->last_name} ({$record->guest->phone})")
+                    ->url(static fn ($record) => route('filament.admin.resources.guests.view', $record->guest->id))
                     ->numeric(),
                 TextEntry::make('check_in_date')
                     ->date(),
@@ -26,7 +29,11 @@ class ReservationInfolist
                     ->numeric(),
                 TextEntry::make('status')
                     ->badge(),
+                TextEntry::make('rooms.price')
+                    ->label('Price per night')
+                    ->numeric(),
                 TextEntry::make('total_amount')
+                    ->label('Total Amount')
                     ->numeric(),
                 TextEntry::make('paid_amount')
                     ->numeric(),
@@ -42,12 +49,6 @@ class ReservationInfolist
                 TextEntry::make('cancellation_reason')
                     ->placeholder('-')
                     ->columnSpanFull(),
-                TextEntry::make('created_at')
-                    ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('updated_at')
-                    ->dateTime()
-                    ->placeholder('-'),
             ]);
     }
 }

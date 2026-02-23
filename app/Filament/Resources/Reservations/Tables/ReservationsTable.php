@@ -19,8 +19,9 @@ class ReservationsTable
             ->columns([
                 TextColumn::make('reservation_number')
                     ->searchable(),
-                TextColumn::make('guest_id')
+                TextColumn::make('guest.first_name')
                     ->numeric()
+                    ->url(static fn ($record) => route('filament.admin.resources.guests.view', $record->guest->id))
                     ->sortable(),
                 TextColumn::make('check_in_date')
                     ->date()

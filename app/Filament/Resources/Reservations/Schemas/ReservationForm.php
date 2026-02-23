@@ -31,16 +31,6 @@ class ReservationForm
                     ->preload()
                     ->required()
                     ->disabled(fn ($record) => $record !== null),
-                //                Select::make('guest_id')
-                //                    ->label('Guest')
-                //                    ->options(function () {
-                //                        return Guest::all()->mapWithKeys(fn ($guest) => [
-                //                            $guest->id => "{$guest->first_name} {$guest->last_name} {$guest->phone}",
-                //                        ])->toArray();
-                //                    })
-                //                    ->searchable()
-                //                    ->preload()
-                //                    ->required(),
                 DatePicker::make('check_in_date')
                     ->label('Check-in Date')
                     ->minDate(Carbon::today())
@@ -58,8 +48,9 @@ class ReservationForm
                     ->label('Room')
                     ->relationship('rooms', 'number')
                     ->required()
+                    ->saveRelationshipsUsing(fn () => null)
                     ->preload()
-                    ->searchable()  // ← добавь это
+                    ->searchable()
                     ->suffixAction(
                         Action::make('view_room')
                             ->icon('heroicon-o-arrow-top-right-on-square')
